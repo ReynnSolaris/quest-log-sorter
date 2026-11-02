@@ -1,0 +1,6 @@
+QLS.swf is built from source, not shipped in this zip.
+
+Run swf/build.ps1 (needs the Apache Flex SDK) and it lands here as QLS.swf.
+See SETUP.md step 4.
+
+Delete this file once you have built it.

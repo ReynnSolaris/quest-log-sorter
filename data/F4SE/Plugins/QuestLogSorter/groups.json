@@ -1,0 +1,102 @@
+// QuestLogSorter grouping rules.
+//
+// Resolution order for a quest's questline:
+//   1. lines.byForm   - exact "<plugin>": { "<local FormID>": "<line>" }
+//   2. lines.byPrefix - EditorID prefix, longest match wins
+//   3. lines.byType   - the QUST record's Type field
+//   4. fallbackLine
+//
+// byForm is the only rule that survives a runtime with EditorIDs stripped,
+// which is why tools/QLS_GenerateGroups.pas emits byForm entries. The prefix
+// rules below are the human-readable fallback and a template for your own mods.
+//
+// Comments are allowed. Reload in-game without restarting via the panel's
+// reload hook, or just relaunch.
+{
+  "fallbackLine": "Other",
+  "defaultSectionOrder": 500,
+
+  "sections": [
+    { "file": "Fallout4.esm",        "name": "Main Game",             "order": 10 },
+    { "file": "DLCRobot.esm",        "name": "Automatron",            "order": 20 },
+    { "file": "DLCworkshop01.esm",   "name": "Wasteland Workshop",    "order": 25 },
+    { "file": "DLCCoast.esm",        "name": "Far Harbor",            "order": 30 },
+    { "file": "DLCworkshop02.esm",   "name": "Contraptions Workshop", "order": 35 },
+    { "file": "DLCworkshop03.esm",   "name": "Vault-Tec Workshop",    "order": 40 },
+    { "file": "DLCNukaWorld.esm",    "name": "Nuka-World",            "order": 45 }
+  ],
+
+  "lines": {
+    // Order values are per-line and apply inside whichever section the quest
+    // lands in, so "Main Story" sits at the top of Far Harbor as well.
+    "order": {
+      "Main Story":             10,
+      "Minutemen":              20,
+      "Brotherhood of Steel":   30,
+      "Railroad":               40,
+      "Institute":              50,
+      "Companion Quests":       60,
+      "Side Quests":            70,
+      "Vault 81":               75,
+      "Locations":              80,
+      "Settlement":            100,
+      "Radiant":               110,
+      "Random Encounters":     120,
+      "Other":                 900
+    },
+
+    "byPrefix": [
+      // DLC main lines first - longest prefix wins, so these beat "dlc03".
+      { "prefix": "DLC01MQ", "line": "Main Story" },
+      { "prefix": "DLC03MQ", "line": "Main Story" },
+      { "prefix": "DLC04MQ", "line": "Main Story" },
+      { "prefix": "DLC06MQ", "line": "Main Story" },
+      { "prefix": "DLC03DN", "line": "Locations" },
+      { "prefix": "DLC01",   "line": "Side Quests" },
+      { "prefix": "DLC03",   "line": "Side Quests" },
+      { "prefix": "DLC04",   "line": "Side Quests" },
+      { "prefix": "DLC06",   "line": "Side Quests" },
+
+      // Base game.
+      { "prefix": "MQ",         "line": "Main Story" },
+      { "prefix": "MinRecruit", "line": "Minutemen" },
+      { "prefix": "Minutemen",  "line": "Minutemen" },
+      { "prefix": "Min",        "line": "Minutemen" },
+      { "prefix": "BoS",        "line": "Brotherhood of Steel" },
+      { "prefix": "RR",         "line": "Railroad" },
+      { "prefix": "Inst",       "line": "Institute" },
+      { "prefix": "COM",        "line": "Companion Quests" },
+      { "prefix": "Rel",        "line": "Companion Quests" },
+      { "prefix": "V81",        "line": "Vault 81" },
+      { "prefix": "MS",         "line": "Side Quests" },
+      { "prefix": "DN",         "line": "Locations" },
+      { "prefix": "Workshop",   "line": "Settlement" },
+      { "prefix": "WRK",        "line": "Settlement" },
+      { "prefix": "Radiant",    "line": "Radiant" },
+      { "prefix": "RE",         "line": "Random Encounters" }
+    ],
+
+    // QUST \ DNAM \ Type. Verify the numbers against your own xEdit view -
+    // the generator script prints them for you. Wrong numbers here are
+    // harmless: they only affect quests no other rule matched.
+    "byType": {
+      "1": "Main Story",
+      "2": "Side Quests",
+      "3": "Other",
+      "4": "Radiant"
+    }
+  },
+
+  // Anything matched here never reaches the UI. Dialogue and scene holders are
+  // named quests internally but are not quests the player is doing.
+  "hide": {
+    "byPrefix": [
+      "Dialogue",
+      "Scene",
+      "Test",
+      "Debug",
+      "zz"
+    ],
+    "byForm": {}
+  }
+}

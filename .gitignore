@@ -1,0 +1,31 @@
+# xmake build output
+/build/
+/.xmake/
+/vsxmake*/
+compile_commands.json
+
+# release archives
+/dist/
+
+# compiled panel
+/data/Interface/QuestLogSorter/QLS.swf
+
+# generated rules - regenerate with tools/QLS_GenerateGroups.pas
+groups.generated.json
+
+# reference copies of vanilla game files - do not commit Bethesda assets
+/reference/
+*.ba2
+Pipboy_*.swf
+PipboyMenu.swf
+
+# editor noise
+.vs/
+.vscode/
+.idea/
+*.user
+Thumbs.db
+.DS_Store
+
+# decompiled vanilla class, not ours to redistribute
+docs/QuestsTab.patched.as
